@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manifest</title>
-  <link rel="manifest" href="./manifest.json">
+  <link rel="manifest" href="/manifestCache/manifest.json">
   <meta name="theme-color" content="#4A90E2">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="./imagenes/icons/192.png" sizes="192x192">
-  <link rel="apple-touch-icon" href="./imagenes/icons/512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/manifestCache/imagenes/icons/192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/manifestCache/imagenes/icons/512.png" sizes="512x512">
 </head>
 <body>
   <h1>Manifest</h1>
 
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
+      navigator.serviceWorker.register('/manifestCache/sw.js')
         .then(function (registration) {
           console.log('Service Worker registered with scope:', registration.scope);
         })
