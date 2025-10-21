@@ -1,10 +1,10 @@
 const appShellAssets = [
-    '/', 
-    '/index.html',
-    '/manifest.json',
-    '/sw.js',
-    '/images/icons/192.png',
-    '/images/icons/512.png'
+    './', 
+    './index.html',
+    './manifest.json',
+    './sw.js',
+    './images/icons/192.png',
+    './images/icons/512.png'
 ];
 
 const appShellDinamic = [];
