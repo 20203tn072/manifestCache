@@ -1,63 +1,59 @@
 const STATIC_CACHE = 'app-shell-v1';
 const DYNAMIC_CACHE = 'app-shell-dynamic-v1';
 
+// OJO: Asegúrate que esta ruta 'images/' coincida con tu carpeta real
 const appShellAssets = [
   './',
   './index.html',
   './manifest.json',
   './sw.js',
-  './images/icons/192.png',
-  './images/icons/512.png'
+  './images/icons/192.png', // Ruta corregida
+  './images/icons/512.png'  // Ruta corregida
 ];
 
-// Precaching
+// --- PASO 1: INSTALACIÓN ---
+// Se dispara cuando el Service Worker se instala
+// Aquí pre-cacheamos el App Shell estático
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then(cache => cache.addAll(appShellAssets))
-      .then(() => self.skipWaiting())
+    caches.open(STATIC_CACHE).then(cache => {
+      console.log('Cacheando app shell estático...');
+      return cache.addAll(appShellAssets);
+    })
   );
 });
 
-// Cleanup old caches
+// --- PASO 2: ACTIVACIÓN ---
+// Se dispara cuando el Service Worker se activa
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(k => k !== STATIC_CACHE && k !== DYNAMIC_CACHE)
-          .map(k => caches.delete(k))
-    ))
-  );
-  self.clients.claim();
+  console.log('Service Worker activado.');
+  // (Aquí es un buen lugar para borrar caches viejos si los tuvieras)
 });
 
-// Fetch: cache-first for app shell assets (so manifest/icons served), dynamic caching for others
+
+// --- PASO 3: FETCH ---
+// Intercepta todas las peticiones de red
 self.addEventListener('fetch', event => {
-  const req = event.request;
-  const url = new URL(req.url);
-
-  // If request is for one of the precached app shell assets -> reply from cache
-  const isAppShell = appShellAssets.some(a => {
-    const path = a.startsWith('./') ? a.slice(1) : a;
-    return url.pathname === '/' + path || url.pathname === path || url.pathname === '/';
-  });
-
-  if (isAppShell) {
-    event.respondWith(
-      caches.match(req).then(res => res || fetch(req))
-    );
-    return;
-  }
-
-  // Otherwise: network-first, fallback to dynamic cache
   event.respondWith(
-    fetch(req)
-      .then(networkRes => {
-        if (req.method === 'GET' && networkRes && networkRes.ok) {
-          const copy = networkRes.clone();
-          caches.open(DYNAMIC_CACHE).then(cache => cache.put(req, copy));
+    caches.match(event.request)
+      .then(response => {
+        
+        // 1. Si la respuesta está en el cache (estático o dinámico), la retorna
+        if (response) {
+          return response;
         }
-        return networkRes;
+
+        // 2. Si no está en cache, va a la red (fetch)
+        return fetch(event.request).then(networkResponse => {
+          
+          // 3. Y guarda la respuesta en el cache dinámico para futuras visitas
+          return caches.open(DYNAMIC_CACHE).then(cache => {
+            // Usamos la constante DYNAMIC_CACHE
+            cache.put(event.request, networkResponse.clone());
+            return networkResponse;
+          });
+        });
       })
-      .catch(() => caches.match(req))
   );
 });
+// (Se eliminó el '}' extra que tenías al final)
