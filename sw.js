@@ -4,13 +4,13 @@ const CACHE_NAME = 'cocktail-pwa-v2';
 
 
 const appShellAssets = [
-  'manifestCache/',
-  'manifestCache/index.html',
-  'manifestCache/manifest.json',
-  'manifestCache/sw.js',
-  'manifestCache/images/icons/192.png',
-  'manifestCache/images/icons/512.png',
-  'manifestCache/scripts/app.js',
+  '/manifestCache/',
+  '/manifestCache/index.html',
+  '/manifestCache/manifest.json',
+  '/manifestCache/sw.js',
+  '/manifestCache/imagenes/icons/192.png',
+  '/manifestCache/imagenes/icons/512.png',
+  '/manifestCache/scripts/app.js',
 ];
 
 // 2. JSON de Fallback para la API (usado cuando la red falla)
