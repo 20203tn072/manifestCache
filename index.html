@@ -13,14 +13,25 @@
   <meta name="theme-color" content="#4A90E2" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  
+
   <link rel="apple-touch-icon" href="imagenes/icons/192.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="imagenes/icons/512.png" sizes="512x512" />
 </head>
 
 <body>
   <h1>Manifest</h1>
-
+  <header>
+    <h1>🍹 Buscador de Cócteles PWA</h1>
+  </header>
+  <main>
+    <section class="search-box">
+      <input type="text" id="cocktailName" placeholder="Escribe el nombre del cóctel (ej. Margarita)" value="Mojito">
+      <button id="searchButton">Buscar</button>
+    </section>
+    <section id="result" class="result-container">
+      <p>Escribe un nombre de cóctel y presiona buscar para iniciar la prueba.</p>
+    </section>
+  </main>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
@@ -34,6 +45,7 @@
       console.log('Service Workers are not supported in this browser.');
     }
   </script>
+  <script src="scripts/app.js"></script>
 </body>
 
 </html>
