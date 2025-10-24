@@ -1,5 +1,7 @@
 const STATIC_CACHE = 'app-shell-v1';
 const DYNAMIC_CACHE = 'app-shell-dynamic-v1';
+const CACHE_NAME = 'cocktail-pwa-v2';
+
 
 const appShellAssets = [
   'manifestCache/',
